@@ -40,7 +40,7 @@ const Authenticate = () => {
                 loading && <Loader />
             }
         </>
-    )
+    ) 
 }
 
 export default Authenticate;

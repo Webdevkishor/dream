@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from 'firebase/firestore';
 import { getDatabase } from 'firebase/database';
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDCtIFxqRvVQfttEy1q6MhmUW3qzNYTOA8",
@@ -14,5 +15,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig, "dreamclerk-app");
 const appDb = getFirestore(app);
 const appRealDb = getDatabase(app);
+const appStorage = getStorage(app);
 
-export { app, appDb, appRealDb };
+export { app, appDb, appRealDb, appStorage };

@@ -1,38 +1,17 @@
 import React from 'react';
 import Navbar from '../../components/buyer/navbar';
 import MobileNavbar from '../../components/buyer/mobile-navbar';
+import Personal from '../../components/setup/personal';
+import AddBank from '../../components/setup/add-bank';
+import { FaCheckCircle } from 'react-icons/fa';
 import { useSetupStore } from '../../store/setup-store';
-import { doc, setDoc } from 'firebase/firestore';
-import { useAuthStore } from '../../store/auth-store';
-import { appDb } from '../../utils/app-db';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-hot-toast';
+import AddSkills from '../../components/setup/add-skills';
 
 const Setup = () => {
 
-    const { currentUser } = useAuthStore();
-    const { setup, setSetup } = useSetupStore();
+    const { component } = useSetupStore();
 
-    const navigate = useNavigate();
-
-    const handleInputChange = (event) => {
-        const { name, value } = event.target;
-        setSetup({
-            ...setup,
-            [name]: value
-        });
-    }
-
-    const finishSetup = async () => {
-        try {
-            await setDoc(doc(appDb, 'user-profiles', currentUser?.uid), setup);
-            toast.success('Setup completed successfully');
-            navigate('/dashboard');
-        } catch (error) {
-            console.error("Error completing setup", error);
-            toast.error('Setup failed');
-        }
-    }
+    const components = [<Personal />, <AddBank />, <AddSkills />];
 
     return (
         <main>
@@ -42,28 +21,33 @@ const Setup = () => {
                 <h2 className='text-center font-medium text-2xl text-secondary'>
                     Setup your profile
                 </h2>
-                <div  className='w-full flex flex-col md:w-[70%] mx-auto mt-10'>
-                    <h2 className='font-medium text-left'>
-                        Personal Details <span className='text-red-500'>*</span>
-                    </h2>
-                    <article className='flex flex-col md:flex-row items-center justify-center gap-5 mt-2 w-full mx-auto'>
-                        <aside className='flex flex-col gap-2 items-center md:w-[50%] w-full'>
-                            <input name='name' onChange={handleInputChange} value={setup.name} type="text" placeholder='Full Name' className='border border-[#D3D3D3] py-2 px-4 rounded-md w-full outline-primary' />
-                            <input name='email' onChange={handleInputChange} value={setup.email} type="email" placeholder='Email' className='border border-[#D3D3D3] py-2 px-4 rounded-md w-full outline-primary' />
-                            <input name='phone' onChange={handleInputChange} value={setup.phone} type="tel" placeholder='Phone' className='border border-[#D3D3D3] py-2 px-4 rounded-md w-full outline-primary' />
-                            <input name='dob' onChange={handleInputChange} value={setup.dob} type="date" placeholder='Date of Birth' className='border border-[#D3D3D3] py-2 px-4 rounded-md w-full outline-primary' />
-                        </aside>
-                        <aside className='flex flex-col gap-2 items-center md:w-[50%] w-full'>
-                            <input name='industry' onChange={handleInputChange} value={setup.industry} type="text" placeholder='Current Industry' className='border border-[#D3D3D3] py-2 px-4 rounded-md w-full outline-primary' />
-                            <input name='profession' onChange={handleInputChange} value={setup.profession} type="text" placeholder='Profession' className='border border-[#D3D3D3] py-2 px-4 rounded-md w-full outline-primary' />
-                            <input name='state' onChange={handleInputChange} value={setup.state} type="text" placeholder='State' className='border border-[#D3D3D3] py-2 px-4 rounded-md w-full outline-primary' />
-                            <input name='pin' onChange={handleInputChange} value={setup.pin} type="number" placeholder='PIN' className='border border-[#D3D3D3] py-2 px-4 rounded-md w-full outline-primary' />
-                        </aside>
-                    </article>
+                <div className='md:w-[70%] w-[80%] flex items-center justify-center my-10 gap-0 mx-auto bg-primary bg-clip-text'>
+                    <aside className='flex flex-col items-center gap-2 relative'>
+                        <FaCheckCircle className='text-3xl text-primary' />
+                        <p className='text-[13px] text-primary absolute top-8 text-center w-[120px]'>
+                            Personal Details
+                        </p>
+                    </aside>
+                    <div className={`h-[10px] w-[50%] ${component === 1 || component === 2 ? 'bg-primary': 'bg-[gray]'}`} />
+                    <aside className={`flex ${component === 1 || component === 2 ? 'text-primary': 'text-[gray]'} flex-col items-center gap-2 relative`}>
+                        <FaCheckCircle className='text-3xl' />
+                        <p className='text-[13px] absolute top-8 text-center w-[120px]'>
+                            Add Bank
+                        </p>
+                    </aside>
+                    <div className={`h-[10px] w-[50%] ${component === 2 ? 'bg-primary': 'bg-[gray]'}`} />
+                    <aside className={`flex ${component === 2 ? 'text-primary': 'text-[gray]'} flex-col items-center gap-2 relative`}>
+                        <FaCheckCircle className='text-3xl' />
+                        <p className='text-[13px] absolute top-8 text-center w-[120px]'>
+                            Register Skills
+                        </p>
+                    </aside>
                 </div>
-                <button onClick={finishSetup}>
-                    Submit
-                </button>
+                <div className='mt-20'>
+                    {
+                        components[component]
+                    }
+                </div>
             </section>
         </main>
     )

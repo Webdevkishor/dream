@@ -1,12 +1,9 @@
 /** @type {import('tailwindcss').Config} */
-import withMT from "@material-tailwind/react/utils/withMT";
 
-export default withMT({
+export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/.vite/deps/@material-tailwind/react/components/**/*.{js,ts,jsx,tsx}",
-    "./node_modules//.vite/deps/@material-tailwind/react/theme/components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     colors: {
@@ -20,5 +17,5 @@ export default withMT({
     },
   },
   plugins: [],
-});
+};
 
