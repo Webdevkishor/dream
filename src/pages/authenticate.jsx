@@ -14,12 +14,15 @@ const Authenticate = () => {
     const authenticateUser = async () => {
         try {
             setLoading(true);
-            const checkSetupCompletion = await getDoc(doc(appDb, 'user-profiles', currentUser?.uid));
-
-            if(checkSetupCompletion.exists()) {
-                navigate('/dashboard');
+            if(!currentUser) {
+                navigate('/home');
             } else {
-                navigate('/setup');
+                const checkSetupCompletion = await getDoc(doc(appDb, 'user-profiles', currentUser?.uid));
+                if(checkSetupCompletion.exists()) {
+                    navigate('/seller/dashboard');
+                } else {
+                    navigate('/setup');
+                }
             }
         } catch (error) {
             console.error('Error authenticating...', error)

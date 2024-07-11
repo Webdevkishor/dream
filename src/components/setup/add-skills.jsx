@@ -8,6 +8,8 @@ import { useAuthStore } from '../../store/auth-store';
 import { appDb, appStorage } from '../../utils/app-db';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { useNavigate } from 'react-router-dom';
+import Popup from 'reactjs-popup';
+import Confirmation from '../confirmation';
 
 const AddSkills = () => {
 
@@ -202,9 +204,15 @@ const AddSkills = () => {
                 <button onClick={() => compState(1)} className='py-1 px-8 rounded-md border border-primary font-font-primary text-lg text-primary my-12'>
                     Prev
                 </button>
-                <button onClick={finishSetup} className='py-1 px-8 rounded-md border border-primary bg-primary font-font-primary text-lg text-[white] my-12'>
+                <Popup overlayStyle={{background: 'rgba(0, 0, 0, .5)'}} trigger={<button className='py-1 px-8 rounded-md border border-primary bg-primary font-font-primary text-lg text-[white] my-12'>
                     Finish
-                </button>
+                </button>} modal nested>
+                    {
+                        close => (
+                            <Confirmation title={"Are you sure you want to continue with this setup?"} onYes={finishSetup} onNo={() => close()} />
+                        )
+                    }
+                </Popup>
             </div>
         </div>
     );
