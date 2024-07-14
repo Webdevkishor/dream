@@ -13,6 +13,8 @@ import Setup from './pages/app/setup';
 import Sidebar from './components/seller/sidebar';
 import Navbar from './components/seller/navbar';
 import PostGig from './pages/app/seller/post-gig';
+import Buyer from './pages/app/buyer/buyer';
+import GigDetail from './pages/app/buyer/gig-detail';
 
 const App = () => {
 
@@ -57,6 +59,8 @@ const MainApp = () => {
             <Route path='/setup' element={<Setup />} />
             <Route path='/seller/dashboard' element={<Dashboard />} />
             <Route path='/seller/post-gig' element={<PostGig />} />
+            <Route path='/buyer' element={<Buyer />} />
+            <Route path='/buyer/:gigId' element={<GigDetail />} />
           </Routes>
         </div>
         <Toaster position="top-right" reverseOrder={false} />

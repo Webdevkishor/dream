@@ -82,10 +82,10 @@ const Dashboard = () => {
         <h2 className='font-medium text-lg px-1'>
           Ongoing Gigs
         </h2>
-        <aside className='flex mt-7 items-center gap-4 px-1 overflow-x-scroll'>
+        <aside className='flex flex-col md:flex-row mt-7 items-center gap-4 px-1 overflow-x-scroll'>
           {
             gigs.map((gig) => (
-              <GigItem key={gig.id} title={gig.title} expertise={gig.expertise_level} deadline_number={gig.deadline_number} deadline_days={gig.deadline_date} image={gig.image1} />
+              <GigItem key={gig.id} title={gig.title} expertise={gig.expertise_level} deadline_number={gig.deadline_number} deadline_days={gig.deadline_date} image={gig.images[0]} />
             ))
           }
         </aside>

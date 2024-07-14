@@ -2,12 +2,15 @@ import React from 'react';
 import { IoMdSearch } from "react-icons/io";
 import { useAuthStore } from '../../store/auth-store';
 import Popup from 'reactjs-popup';
-import { useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
 
     const { currentUser, handleSignOut } = useAuthStore();
     const navigate = useNavigate();
+
+    const location = useLocation();
+    const setupPage = location.pathname.startsWith('/setup');
 
     return (
         <header className='w-full font-font-primary hidden md:flex items-center justify-between bg-secondary px-10 py-4'>
@@ -21,9 +24,9 @@ const Navbar = () => {
                 <IoMdSearch className='text-[gray] text-2xl absolute top-2 left-5' />
             </div>
             <div className='flex items-center gap-10'>
-                <h2 className='text-primary font-medium px-4 py-2 active:text-[white] rounded-md active:bg-primary transition-all duration-200 ease-out'>
+                <Link to={'/seller/dashboard'} className={`${setupPage && 'pointer-events-none'} text-primary font-medium px-4 py-2 active:text-[white] rounded-md active:bg-primary transition-all duration-200 ease-out`}>
                     Switch to Seller
-                </h2>
+                </Link>
                 <Popup
                     trigger={
                         <button className="rounded-full border border-primary h-[45px] w-[45px]">

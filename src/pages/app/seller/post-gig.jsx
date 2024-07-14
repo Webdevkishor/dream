@@ -7,10 +7,13 @@ import { getDownloadURL, ref as storageRef, uploadBytes } from 'firebase/storage
 import { appRealDb, appStorage } from '../../../utils/app-db';
 import { useAuthStore } from '../../../store/auth-store';
 import { ref, set, update } from 'firebase/database';
+import { useNavigate } from 'react-router-dom';
 
 const PostGig = () => {
 
     const { currentUser } = useAuthStore();
+
+    const navigate = useNavigate();
 
     const generateRandomId = () => {
         return Math.random().toString(36).substring(2, 18) + Math.random().toString(36).substring(2, 18);
@@ -153,6 +156,7 @@ const PostGig = () => {
         } else {
             // Call postGig function
             await postGig();
+            navigate('/seller/dashboard');
         }
     };
 
@@ -173,25 +177,31 @@ const PostGig = () => {
             setLoading(true);
             const gigRef = ref(appRealDb, `gigData/${currentUser?.uid}/${gigData.id}`);
             await set(gigRef, gigData);
-
+    
             const gigStorageRef1 = storageRef(appStorage, `gig-images/${currentUser?.email}/${gigData.id}/image1`);
             const gigStorageRef2 = storageRef(appStorage, `gig-images/${currentUser?.email}/${gigData.id}/image2`);
             const gigStorageRef3 = storageRef(appStorage, `gig-images/${currentUser?.email}/${gigData.id}/image3`);
+    
+            const imageUrls = [];
+    
             if (gigImages.image1) {
                 await uploadBytes(gigStorageRef1, gigImages.image1);
-                const downloadURL = await getDownloadURL(gigStorageRef1);
-                await update(gigRef, { image1: downloadURL });
+                const downloadURL1 = await getDownloadURL(gigStorageRef1);
+                imageUrls.push(downloadURL1);
             }
             if (gigImages.image2) {
                 await uploadBytes(gigStorageRef2, gigImages.image2);
-                const downloadURL = await getDownloadURL(gigStorageRef2);
-                await update(gigRef, { image2: downloadURL });
+                const downloadURL2 = await getDownloadURL(gigStorageRef2);
+                imageUrls.push(downloadURL2);
             }
             if (gigImages.image3) {
                 await uploadBytes(gigStorageRef3, gigImages.image3);
-                const downloadURL = await getDownloadURL(gigStorageRef3);
-                await update(gigRef, { image3: downloadURL });
+                const downloadURL3 = await getDownloadURL(gigStorageRef3);
+                imageUrls.push(downloadURL3);
             }
+    
+            await update(gigRef, { images: imageUrls });
+    
             toast.success("Gig posted successfully");
         } catch (error) {
             console.error("Error posting gig", error);
@@ -199,7 +209,7 @@ const PostGig = () => {
         } finally {
             setLoading(false);
         }
-    }
+    };
 
     return (
         <main className='font-font-primary md:px-6 px-3 bg-[whitesmoke] flex flex-col'>
@@ -346,6 +356,7 @@ const PostGig = () => {
                         <input value={gigData.deadline_number} onChange={handleInputChange} name='deadline_number' type="number" placeholder='0' className='border border-[#D3D3D3] py-2 px-4 rounded-md w-full outline-primary' required />
                         {errors.deadline_number && <p className='text-[red] text-[13px]'>{errors.deadline_number}</p>}
                         <select value={gigData.deadline_date} onChange={handleInputChange} name="deadline_date" className='border py-2 px-4 rounded-md outline-primary border-[#D3D3D3] w-full' required>
+                            <option value={""} disabled>SELECT</option>
                             <option value={"days"}>DAYS</option>
                             <option value={"months"}>MONTHS</option>
                             <option value={"years"}>YEARS</option>

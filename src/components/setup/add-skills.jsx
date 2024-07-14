@@ -106,7 +106,7 @@ const AddSkills = () => {
                 }
             }
 
-            navigate('/dashboard');
+            navigate('/seller/dashboard');
 
         } catch (error) {
             console.error("Error finishing setup", error);
