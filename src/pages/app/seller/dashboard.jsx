@@ -6,7 +6,7 @@ import { MdContacts } from "react-icons/md";
 
 const Dashboard = () => {
   return (
-    <main className='font-font-primary text-[white] bg-[whitesmoke] mt-28 md:px-6 px-3'>
+    <main className='font-font-primary text-[white] bg-[whitesmoke] mt-7 md:px-6 px-3'>
       <section className='flex items-center md:gap-3 gap-2 flex-wrap md:flex-nowrap md:flex-row'>
         <article className="relative md:py-10 md:px-12 py-7 w-[48%] rounded-xl bg-[#232323] border flex items-center justify-center gap-3 md:gap-5 border-primary md:w-[25%]">
           <FaCheckSquare className='text-5xl' />

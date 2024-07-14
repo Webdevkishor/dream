@@ -1,9 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { IoImageOutline } from "react-icons/io5";
+import { SKILLED_SERVICES, UNSKILLED_SERVICES } from '../../../utils/constants';
+import { toast } from 'react-hot-toast';
+import Loader from '../../../components/loader';
+import { getDownloadURL, ref as storageRef, uploadBytes } from 'firebase/storage';
+import { appRealDb, appStorage } from '../../../utils/app-db';
+import { useAuthStore } from '../../../store/auth-store';
+import { ref, set, update } from 'firebase/database';
 
 const PostGig = () => {
+
+    const { currentUser } = useAuthStore();
+
+    const generateRandomId = () => {
+        return Math.random().toString(36).substring(2, 18) + Math.random().toString(36).substring(2, 18);
+    };
+
     const [gigData, setGigData] = useState({
-        title: "",
+        id: generateRandomId(),
+        title: "I will",
         expertise_level: "",
         category: "",
         sub_category: "",
@@ -22,18 +37,34 @@ const PostGig = () => {
         image3: null
     });
 
+    const [subcategories, setSubcategories] = useState([]);
     const [errors, setErrors] = useState({});
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        // Update subcategories based on selected category
+        const category = gigData.category;
+        const expertiseLevel = gigData.expertise_level;
+        
+        if (category) {
+            const services = expertiseLevel === 'skilled' ? SKILLED_SERVICES : UNSKILLED_SERVICES;
+            const selectedCategory = services.find(service => service.category === category);
+            if (selectedCategory) {
+                setSubcategories(selectedCategory.skills);
+            } else {
+                setSubcategories([]);
+            }
+        } else {
+            setSubcategories([]);
+        }
+    }, [gigData.category, gigData.expertise_level]);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         let newValue = value;
-        
-        // Validation for title
         if (name === 'title') {
             newValue = value.startsWith("I will ") ? value : "I will " + value;
         }
-
-        // Validation for number inputs
         if (['gig_cost', 'revision_cost', 'deadline_number'].includes(name) && (Number(value) <= 0)) {
             setErrors((prevErrors) => ({
                 ...prevErrors,
@@ -45,7 +76,6 @@ const PostGig = () => {
                 [name]: null
             }));
         }
-
         setGigData({
             ...gigData,
             [name]: newValue
@@ -90,7 +120,7 @@ const PostGig = () => {
         return null;
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const newErrors = {};
 
@@ -121,8 +151,8 @@ const PostGig = () => {
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
         } else {
-            // Submit form
-            console.log("Form submitted", { gigData, gigImages });
+            // Call postGig function
+            await postGig();
         }
     };
 
@@ -138,8 +168,42 @@ const PostGig = () => {
         );
     }
 
+    const postGig = async () => {
+        try {
+            setLoading(true);
+            const gigRef = ref(appRealDb, `gigData/${currentUser?.uid}/${gigData.id}`);
+            await set(gigRef, gigData);
+
+            const gigStorageRef1 = storageRef(appStorage, `gig-images/${currentUser?.email}/${gigData.id}/image1`);
+            const gigStorageRef2 = storageRef(appStorage, `gig-images/${currentUser?.email}/${gigData.id}/image2`);
+            const gigStorageRef3 = storageRef(appStorage, `gig-images/${currentUser?.email}/${gigData.id}/image3`);
+            if (gigImages.image1) {
+                await uploadBytes(gigStorageRef1, gigImages.image1);
+                const downloadURL = await getDownloadURL(gigStorageRef1);
+                await update(gigRef, { image1: downloadURL });
+            }
+            if (gigImages.image2) {
+                await uploadBytes(gigStorageRef2, gigImages.image2);
+                const downloadURL = await getDownloadURL(gigStorageRef2);
+                await update(gigRef, { image2: downloadURL });
+            }
+            if (gigImages.image3) {
+                await uploadBytes(gigStorageRef3, gigImages.image3);
+                const downloadURL = await getDownloadURL(gigStorageRef3);
+                await update(gigRef, { image3: downloadURL });
+            }
+            toast.success("Gig posted successfully");
+        } catch (error) {
+            console.error("Error posting gig", error);
+            toast.error("Failed to post gig");
+        } finally {
+            setLoading(false);
+        }
+    }
+
     return (
-        <main className='font-font-primary pt-28 md:px-6 px-3 bg-[whitesmoke] flex flex-col'>
+        <main className='font-font-primary md:px-6 px-3 bg-[whitesmoke] flex flex-col'>
+            {loading && <Loader />}
             <form onSubmit={handleSubmit} className='bg-[white] md:p-10 flex flex-col gap-10 p-5 my-6 rounded-lg border border-[#D3D3D3] w-full md:max-w-[1000px] mx-auto'>
                 <div className='flex flex-col md:flex-row gap-5 items-start justify-center'>
                     <article className='md:w-[30%] w-full'>
@@ -172,11 +236,29 @@ const PostGig = () => {
                     </article>
                     <aside className='flex flex-col md:flex-row items-center gap-3 md:w-[500px] w-full'>
                         <select value={gigData.category} onChange={handleInputChange} name="category" className='border py-2 px-4 rounded-md outline-primary border-[#D3D3D3] md:w-[50%] w-full' required>
-                            <option value={""}>SELECT A CATEGORY</option>
+                            <option value={""} disabled>SELECT A CATEGORY</option>
+                            {
+                                gigData.expertise_level === "skilled" ? 
+                                    SKILLED_SERVICES.map((skill, index) => (
+                                        <option key={index} value={skill.category}>
+                                            {skill.category}
+                                        </option>
+                                    )) : 
+                                    UNSKILLED_SERVICES.map((skill, index) => (
+                                        <option key={index} value={skill.category}>
+                                            {skill.category}
+                                        </option>
+                                    ))
+                            }
                         </select>
                         {errors.category && <p className='text-[red] text-[13px]'>{errors.category}</p>}
                         <select value={gigData.sub_category} onChange={handleInputChange} name="sub_category" className='border py-2 px-4 rounded-md md:w-[50%] w-full outline-primary border-[#D3D3D3]'>
                             <option value={""}>SELECT A SUBCATEGORY</option>
+                            {subcategories.map((subCategory, index) => (
+                                <option key={index} value={subCategory}>
+                                    {subCategory}
+                                </option>
+                            ))}
                         </select>
                         {errors.sub_category && <p className='text-[red] text-[13px]'>{errors.sub_category}</p>}
                     </aside>
@@ -194,7 +276,7 @@ const PostGig = () => {
                         <h4 className='font-medium text-xl'>Images</h4>
                         <p className='text-[gray] text-[0.9rem] mt-2'>Get noticed by the right buyers with visual examples of your services.</p>
                     </article>
-                    <aside className='md:w-[500px] flex flex-col md:flex-row items-center gap-2 w-full'>
+                    <aside className='md:w-[500px] flex flex-col md:flex-row gap-2 w-full'>
                         <div className='flex flex-col justify-center py-2 items-center md:w-[50%] border-[#D3D3D3] w-full border rounded-md'>
                             {renderImagePreview(gigImages.image1)}
                             <label htmlFor="choosePhoto1" className='-mt-1 text-[blue] text-[13px] hover:underline cursor-pointer'>
@@ -271,7 +353,7 @@ const PostGig = () => {
                         {errors.deadline_date && <p className='text-[red] text-[13px]'>{errors.deadline_date}</p>}
                     </aside>
                 </div>
-                <button type="submit" className='py-2 self-end px-8 rounded-md bg-primary mb-10 mr-32 flex items-center transition-all duration-200 ease-out gap-2 font-medium text-[white] border border-primary active:bg-[transparent] active:text-primary'>
+                <button type="submit" className='py-2 self-end px-8 rounded-md bg-primary mb-10 mr-14 flex items-center transition-all duration-200 ease-out gap-2 font-medium text-[white] border border-primary active:bg-[transparent] active:text-primary'>
                     Post
                 </button>
             </form>

@@ -1,4 +1,4 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApps } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getStorage } from 'firebase/storage';
 import { getFirestore } from 'firebase/firestore';
@@ -14,7 +14,10 @@ const firebaseConfig = {
   measurementId: "G-L4PDSH40MJ"
 };
 
-const authApp = initializeApp(firebaseConfig, "dreamclerk-auth");
+const authApp = !getApps().some(app => app.name === "dreamclerk-auth") 
+  ? initializeApp(firebaseConfig, "dreamclerk-auth") 
+  : getApps().find(app => app.name === "dreamclerk-auth");
+
 const auth = getAuth(authApp);
 const authDb = getFirestore(authApp);
 const authStorage = getStorage(authApp);

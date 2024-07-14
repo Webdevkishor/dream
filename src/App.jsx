@@ -45,10 +45,10 @@ const MainApp = () => {
 
   return (
     <>
-      {sellerModule && <Navbar openSidebar={openSidebar} />}
       <main className="flex h-screen bg-[whitesmoke]">
         {sellerModule && <Sidebar openSidebar={openSidebar} setOpenSidebar={setOpenSidebar} />}
         <div className="flex flex-col flex-1 overflow-y-scroll">
+        {sellerModule && <Navbar openSidebar={openSidebar} />}
           <Routes>
             <Route path='/' element={<Authenticate />} />
             <Route path='/home' element={<LandingPage />} /> 

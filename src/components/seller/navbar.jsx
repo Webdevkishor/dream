@@ -3,13 +3,13 @@ import { FaPlusCircle } from "react-icons/fa";
 import { useAuthStore } from '../../store/auth-store';
 import { Link, useNavigate } from 'react-router-dom';
 
-const Navbar = ({ openSidebar }) => {
+const Navbar = () => {
 
     const { currentUser, handleSignOut } = useAuthStore();
     const navigate = useNavigate();
 
     return (
-        <header className={`w-full flex md:min-w-[750px] mt-8 py-3 justify-between items-center md:pr-9 pr-4 ${openSidebar ? 'md:pl-80 pl-24' : 'pl-24'} font-font-primary absolute top-0 transition-all duration-300 ease-out`}>
+        <header className={`w-full flex md:min-w-[750px] mt-8 py-3 justify-between items-center md:px-9 px-4 font-font-primary transition-all duration-300 ease-out`}>
             <h4 className="text-xl text-primary font-medium">
                 Welcome <span className='text-secondary hidden md:inline'>{currentUser?.name},</span>
             </h4>
