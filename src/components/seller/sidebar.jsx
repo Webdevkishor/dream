@@ -31,7 +31,7 @@ const Sidebar = ({ openSidebar, setOpenSidebar }) => {
                     </h5>
                 </Link>
                 <hr className={`border border-[white] my-2 self-center ${openSidebar ? "w-[93%]" : "w-full"}`} />
-                <Link to={"/dashboard"} className={`${ openSidebar ? "md:text-2xl text-3xl" : "text-3xl" } rounded-lg bg-[#161617] p-2 flex gap-3 items-center hover:bg-[#03BD6C]`}>
+                <Link to={"/seller/my-gigs"} className={`${ openSidebar ? "md:text-2xl text-3xl" : "text-3xl" } rounded-lg bg-[#161617] p-2 flex gap-3 items-center hover:bg-[#03BD6C]`}>
                     <FaFileImport />
                     <h5 className={`text-lg ${ openSidebar ? "md:block hidden" : "hidden" } transition-all duration-300 ease-in-out whitespace-nowrap`}>
                         My Gigs

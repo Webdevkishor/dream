@@ -6,6 +6,7 @@ import { MdMessage } from "react-icons/md";
 import { useGigStore } from '../../../store/gig-store';
 import GigItem from '../../../components/buyer/gig-item';
 import { FaFilter } from "react-icons/fa6";
+import { Link } from 'react-router-dom';
 
 const Buyer = () => {
 
@@ -25,7 +26,9 @@ const Buyer = () => {
                     <h4 className='text-xl text-primary font-medium'>
                         Welcome <span className='text-[white]'>{currentUser?.name},</span>
                     </h4>
-                    <MdMessage className='text-3xl text-[white]' />
+                    <Link to={'/buyer/chats'}>
+                        <MdMessage className='text-3xl text-[white]' />
+                    </Link>
                 </div>
                 <h2 className='mt-6 font-medium text-xl'>
                     Recommended for you
