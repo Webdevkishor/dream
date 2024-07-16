@@ -17,6 +17,7 @@ import Buyer from './pages/app/buyer/buyer';
 import GigDetail from './pages/app/buyer/gig-detail';
 import MyGigs from './pages/app/seller/my-gigs';
 import ChatInbox from './pages/app/buyer/chat-inbox';
+import Messenger from './pages/app/buyer/messenger';
 
 const App = () => {
 
@@ -65,6 +66,7 @@ const MainApp = () => {
             <Route path='/buyer' element={<Buyer />} />
             <Route path='/buyer/:gigId' element={<GigDetail />} />
             <Route path='/buyer/chats' element={<ChatInbox />} />
+            <Route path='/buyer/chats/:chatId' element={<Messenger />} />
           </Routes>
         </div>
         <Toaster position="top-right" reverseOrder={false} />

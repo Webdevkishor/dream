@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import MobileNavbar from '../../../components/buyer/mobile-navbar';
 import Navbar from '../../../components/buyer/navbar';
 import { useGigStore } from '../../../store/gig-store';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { authDb } from '../../../utils/auth-db';
 import { appDb } from '../../../utils/app-db';
@@ -93,9 +93,9 @@ const GigDetail = () => {
                         <p className='text-[gray] text-sm text-center'>
                             Additonal cost of INR {gig?.revision_cost} per revision
                         </p>
-                        <button className='text-[#03BD6C] font-medium text-2xl rounded-md border border-[#03BD6C] mt-10 px-14 py-2 active:bg-[#03BD6C] active:text-[white]'>
+                        <Link to={`/buyer/chats/${gig?.uid}`} className='text-[#03BD6C] font-medium text-2xl text-center rounded-md border border-[#03BD6C] mt-10 px-14 py-2 active:bg-[#03BD6C] active:text-[white]'>
                             Get A Quote
-                        </button>
+                        </Link>
                         <h4 className='uppercase text-[gray] mt-3'>
                             SUBMISSION WITHIN {gig?.deadline_number} {gig?.deadline_date}
                         </h4>
