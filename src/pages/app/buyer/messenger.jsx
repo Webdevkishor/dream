@@ -3,7 +3,7 @@ import MobileNavbar from '../../../components/buyer/mobile-navbar';
 import Navbar from '../../../components/buyer/navbar';
 import { IoSend } from "react-icons/io5";
 import { useParams } from 'react-router-dom';
-import { addDoc, collection, doc, getDoc, getDocs } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, getDocs, setDoc } from 'firebase/firestore';
 import { authDb } from '../../../utils/auth-db';
 import { useAuthStore } from '../../../store/auth-store';
 import { chatsDb } from '../../../utils/chats-db';
@@ -92,12 +92,22 @@ const Messenger = () => {
 
             const recieverRef = doc(chatsDb, "seller-chats", chatId, "inbox", currentUser?.uid);
             const messagesRef2 = collection(recieverRef, "messages");
+
+            await setDoc(senderRef, {
+                name: reciever?.name,
+                photo: reciever?.photo,
+            });
             
             await addDoc(messagesRef1, {
                 textMsg: message,
                 photo: currentUser?.photo,
                 createdAt: getCurrentDateTime(),
                 sender: currentUser?.uid
+            });
+
+            await setDoc(recieverRef, {
+                name: currentUser?.name,
+                photo: currentUser?.photo,
             });
 
             await addDoc(messagesRef2, {

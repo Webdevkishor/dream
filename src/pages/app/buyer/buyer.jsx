@@ -33,7 +33,7 @@ const Buyer = () => {
                 <h2 className='mt-6 font-medium text-xl'>
                     Recommended for you
                 </h2>
-                <aside className='flex flex-col md:flex-row mt-7 items-center gap-4 px-1 overflow-x-scroll'>
+                <aside className='flex flex-col md:flex-row mt-7 gap-4 px-1 overflow-x-scroll'>
                     {
                         allGigs.map((gig) => (
                             <GigItem key={gig.id} gigId={gig.id} title={gig.title} expertise={gig.expertise_level} price={gig.gig_cost} image={gig.images[0]} />
@@ -51,7 +51,7 @@ const Buyer = () => {
                         Filter Gigs
                     </h4>
                 </div>
-                <aside className='flex flex-col md:flex-row mt-7 items-center gap-4 px-1 overflow-x-scroll'>
+                <aside className='flex flex-col md:flex-row mt-7 gap-4 px-1 overflow-x-scroll'>
                     {
                         allGigs.map((gig) => (
                             <GigItem key={gig.id} gigId={gig.id} title={gig.title} expertise={gig.expertise_level} price={gig.gig_cost} image={gig.images[0]} />
