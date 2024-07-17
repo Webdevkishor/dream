@@ -2,7 +2,7 @@ import React from 'react';
 import Popup from 'reactjs-popup';
 import { useAuthStore } from '../../store/auth-store';
 import { IoMdSearch } from 'react-icons/io';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const MobileNavbar = ({ searchTerm, setSearchTerm }) => {
 
@@ -14,9 +14,9 @@ const MobileNavbar = ({ searchTerm, setSearchTerm }) => {
             <nav className='px-8 py-2 bg-secondary font-font-primary flex items-center justify-between'>
                 <img className='h-[50px] w-[50px] rounded-md' src="/favicon.webp" alt="D" />
                 <div className='flex items-center gap-2'>
-                    <h2 className='text-primary font-medium px-2 py-2 active:text-[white] rounded-md active:bg-primary transition-all duration-200 ease-out'>
+                    <Link to={'/seller/dashboard'} className='text-primary font-medium px-2 py-2 active:text-[white] rounded-md active:bg-primary transition-all duration-200 ease-out'>
                         Switch to Seller
-                    </h2>
+                    </Link>
                     <Popup
                         trigger={
                             <button className="rounded-full border border-primary h-[45px] w-[45px]">
