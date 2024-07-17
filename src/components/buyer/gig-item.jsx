@@ -1,9 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAuthStore } from '../../store/auth-store';
 
 const GigItem = ({ gigId, title, image, price, expertise }) => {
+
+    const { currentUser } = useAuthStore();
+
     return (
-        <Link to={`/buyer/${gigId}`} className='md:w-[350px] md:min-w-[325px] w-full rounded-lg border border-[#D3D3D3]'>
+        <Link to={currentUser ? `/buyer/${gigId}`: '/login'} className='md:w-[350px] md:min-w-[325px] w-full rounded-lg border border-[#D3D3D3]'>
             <img className='rounded-t-lg' src={image} alt="AV" />
             <aside className='p-4 flex flex-col gap-2'>
                 <h3 className='text-lg'>

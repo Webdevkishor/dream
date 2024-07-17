@@ -19,6 +19,9 @@ import MyGigs from './pages/app/seller/my-gigs';
 import ChatInbox from './pages/app/chat-inbox';
 import Messenger from './pages/app/messenger';
 import Contact from './pages/contact';
+import PrivacyPolicy from './pages/privacy-policy';
+import RefundPolicy from './pages/refund-policy';
+import Terms from './pages/terms';
 
 const App = () => {
 
@@ -59,6 +62,9 @@ const MainApp = () => {
             <Route path='/' element={<Authenticate />} />
             <Route path='/home' element={<LandingPage />} /> 
             <Route path='/contact' element={<Contact />} /> 
+            <Route path='privacy-policy' element={<PrivacyPolicy />} />
+            <Route path='refund-policy' element={<RefundPolicy />} />
+            <Route path='terms-conditions' element={<Terms />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<SignUp />} />
             <Route path='/setup' element={<Setup />} />

@@ -26,23 +26,23 @@ const Footer = () => {
                 <aside className='flex flex-wrap gap-6 px-10 justify-center my-10 md:my-[unset] md:gap-14'>
                     <article className='flex flex-col gap-3'>
                         <h3 className='text-allotrix-std text-sm'>
-                            <Link to="/">
+                            <h2>
                                 Product
-                            </Link>
+                            </h2>
                         </h3>
                         <ul className='text-sm'>
                             <li>
-                                <a href="/privacypolicy">
+                                <a href="/privacy-policy">
                                     Privacy Policy
                                 </a>
                             </li>
                             <li>
-                                <a href="/termsofservice">
+                                <a href="/terms-conditions">
                                     Terms of Service
                                 </a>
                             </li>
                             <li>
-                                <a href="/refundpolicy">
+                                <a href="/refund-policy">
                                     Refund Policy
                                 </a>
                             </li>
@@ -50,9 +50,9 @@ const Footer = () => {
                     </article>
                     <article className='flex flex-col gap-3'>
                         <h3 className='text-allotrix-std text-sm'>
-                            <Link to="/">
+                            <h2>
                                 Other Links
-                            </Link>
+                            </h2>
                         </h3>
                         <ul className='text-sm'>
                             <li>
@@ -87,9 +87,9 @@ const Footer = () => {
                     </article>
                     <article className='flex flex-col gap-3'>
                         <h3 className='text-sm'>
-                            <Link to="/">
+                            <h2>
                                 Contact
-                            </Link>
+                            </h2>
                         </h3>
                         <ul className='text-sm'>
                             <li>
@@ -127,7 +127,7 @@ const Footer = () => {
                     dreamclerk
                 </div>
                 <div className='bg-[#161617] text-[13px] font-light py-1 px-4 rounded-2xl text-[white] transition-all duration-300 ease-out border-[1px] border-solid hover:border-mamun-blue'>
-                    <a href='/'>
+                    <a href='/signup'>
                         Signup
                     </a>
                 </div>
