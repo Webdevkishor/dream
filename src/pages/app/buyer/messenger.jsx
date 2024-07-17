@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import MobileNavbar from '../../../components/buyer/mobile-navbar';
 import Navbar from '../../../components/buyer/navbar';
 import { IoSend } from "react-icons/io5";
@@ -16,6 +16,7 @@ const Messenger = () => {
     const [message, setMessage] = useState("Hey there! I am interested on working with you.");
     const [reciever, setReciever] = useState({});
     const [messages, setMessages] = useState([]);
+    const chatScrollRef = useRef(null);
 
     const fetchUser = async () => {
         try {
@@ -87,6 +88,8 @@ const Messenger = () => {
                 createdAt: getCurrentDateTime(),
                 sender: currentUser?.uid
             }]);
+            chatScrollRef.current.scrollIntoView({ behavior: 'smooth' });
+
             const senderRef = doc(chatsDb, "buyer-chats", currentUser?.uid, "inbox", chatId);
             const messagesRef1 = collection(senderRef, "messages");
 
@@ -158,6 +161,7 @@ const Messenger = () => {
                                     </article>
                                 ))
                             }
+                            <aside ref={chatScrollRef}></aside>
                         </div>
                     </article>
                     <aside className='flex items-center gap-2 mt-4 w-full'>
