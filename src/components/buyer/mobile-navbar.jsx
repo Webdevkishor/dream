@@ -4,7 +4,7 @@ import { useAuthStore } from '../../store/auth-store';
 import { IoMdSearch } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 
-const MobileNavbar = () => {
+const MobileNavbar = ({ searchTerm, setSearchTerm }) => {
 
     const { currentUser, handleSignOut } = useAuthStore();
     const navigate = useNavigate();
@@ -42,7 +42,7 @@ const MobileNavbar = () => {
             </nav>
             <aside>
                 <div className='relative px-4 mt-4'>
-                    <input type="text" placeholder='Search' className='rounded-full outline-primary w-full gap-4 border-none pl-12 pr-6 py-2 bg-[#ECECEC]' />
+                    <input value={searchTerm} onChange={(event) => setSearchTerm(event.target.value)}  type="text" placeholder='Search' className='rounded-full outline-primary w-full gap-4 border-none pl-12 pr-6 py-2 bg-[#ECECEC]' />
                     <IoMdSearch className='text-[gray] text-2xl absolute top-2 left-8' />
                 </div>
             </aside>

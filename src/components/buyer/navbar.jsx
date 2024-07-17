@@ -4,7 +4,7 @@ import { useAuthStore } from '../../store/auth-store';
 import Popup from 'reactjs-popup';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar = ({ searchTerm, setSearchTerm }) => {
 
     const { currentUser, handleSignOut } = useAuthStore();
     const navigate = useNavigate();
@@ -20,7 +20,7 @@ const Navbar = () => {
                 </h2>
             </div>
             <div className='relative'>
-                <input type="text" placeholder='Search' className='rounded-full outline-primary w-[550px] gap-4 border-none pl-14 pr-6 py-2 bg-[#ECECEC]' />
+                <input value={searchTerm} onChange={(event) => setSearchTerm(event.target.value)}  type="text" placeholder='Search' className='rounded-full outline-primary w-[550px] gap-4 border-none pl-14 pr-6 py-2 bg-[#ECECEC]' />
                 <IoMdSearch className='text-[gray] text-2xl absolute top-2 left-5' />
             </div>
             <div className='flex items-center gap-10'>
