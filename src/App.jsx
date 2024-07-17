@@ -18,6 +18,7 @@ import GigDetail from './pages/app/buyer/gig-detail';
 import MyGigs from './pages/app/seller/my-gigs';
 import ChatInbox from './pages/app/chat-inbox';
 import Messenger from './pages/app/messenger';
+import Contact from './pages/contact';
 
 const App = () => {
 
@@ -57,6 +58,7 @@ const MainApp = () => {
           <Routes>
             <Route path='/' element={<Authenticate />} />
             <Route path='/home' element={<LandingPage />} /> 
+            <Route path='/contact' element={<Contact />} /> 
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<SignUp />} />
             <Route path='/setup' element={<Setup />} />

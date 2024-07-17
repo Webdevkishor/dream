@@ -11,7 +11,7 @@ const Navbar = ({ openNav, setOpenNav }) => {
                 </button>
             </div>
             <div className='w-[120px]'>
-                <Link to={'/'} onClick={() => setOpenNav(!openNav)}>
+                <Link to={'/home'} onClick={() => setOpenNav(!openNav)}>
                     <h2 className='text-primary text-xl'>
                         dreamclerk
                     </h2>
@@ -19,7 +19,7 @@ const Navbar = ({ openNav, setOpenNav }) => {
             </div>
             <ul className='flex flex-col font-light text-lg text-[#858585] items-center gap-4 px-6 py-4 rounded-xl md:flex-row md:gap-10 md:py-3 md:px-8 md:h-[55px]'>
                 <li>
-                    <Link to="/about" onClick={() => setOpenNav(!openNav)}>About</Link>
+                    <Link to="/home" onClick={() => setOpenNav(!openNav)}>About</Link>
                 </li>
                 <li>
                     <Link to="/contact" onClick={() => setOpenNav(!openNav)}>Contact</Link>
