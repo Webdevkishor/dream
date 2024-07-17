@@ -3,10 +3,11 @@ import MobileNavbar from '../../../components/buyer/mobile-navbar';
 import Navbar from '../../../components/buyer/navbar';
 import { IoSend } from "react-icons/io5";
 import { useParams } from 'react-router-dom';
-import { addDoc, collection, doc, getDoc, getDocs, setDoc } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, onSnapshot, query, orderBy, setDoc } from 'firebase/firestore';
 import { authDb } from '../../../utils/auth-db';
 import { useAuthStore } from '../../../store/auth-store';
 import { chatsDb } from '../../../utils/chats-db';
+import { serverTimestamp } from 'firebase/firestore';
 
 const Messenger = () => {
 
@@ -39,31 +40,44 @@ const Messenger = () => {
         }
     }, [chatId]);
 
-    const fetchMessages = async () => {
-        try {
-            const userRef = doc(chatsDb, "buyer-chats", currentUser?.uid, "inbox", chatId);
+    useEffect(() => {
+        let unsubscribe;
+        if(chatId && currentUser) {
+            const userRef = doc(chatsDb, "chats", currentUser?.uid, "inbox", chatId);
             const messagesRef = collection(userRef, "messages");
-            const messagesSnapshot = await getDocs(messagesRef);
     
-            const messages = [];
-            messagesSnapshot.forEach((doc) => {
-                messages.push({
+            const q = query(messagesRef, orderBy("timestamp", "asc"));
+            unsubscribe = onSnapshot(q, (snapshot) => {
+                const messages = snapshot.docs.map(doc => ({
+                    id: doc.id,
                     ...doc.data()
+                }));
+                setMessages(messages);
+    
+                snapshot.docs.forEach(doc => {
+                    if (!doc.data().isRead && doc.data().sender !== currentUser?.uid) {
+                        const messageRef = doc.ref;
+                        setDoc(messageRef, { isRead: true }, { merge: true });
+                    }
                 });
+            }, (error) => {
+                console.error("Error fetching messages", error);
             });
-            setMessages(messages);
-
-        } catch (error) {
-            console.error("Error fetching messages", error);
         }
-    };
+    
+        return () => {
+            if (unsubscribe) {
+                unsubscribe();
+            }
+        };
+    }, [chatId, currentUser]);
     
 
     useEffect(() => {
-        if(chatId && currentUser) {
-            fetchMessages();
+        if (chatScrollRef.current) {
+            chatScrollRef.current.scrollIntoView({ behavior: 'smooth' });
         }
-    }, [chatId, currentUser]);
+    }, [messages]);
 
     const getCurrentDateTime = () => {
         const now = new Date();
@@ -82,49 +96,42 @@ const Messenger = () => {
     const sendMessage = async () => {
         if (message === "") return;
         try {
-            setMessages([...messages, {
+            const newMessage = {
                 textMsg: message,
                 photo: currentUser?.photo,
                 createdAt: getCurrentDateTime(),
-                sender: currentUser?.uid
-            }]);
-            chatScrollRef.current.scrollIntoView({ behavior: 'smooth' });
-
-            const senderRef = doc(chatsDb, "buyer-chats", currentUser?.uid, "inbox", chatId);
+                timestamp: serverTimestamp(),
+                sender: currentUser?.uid,
+                isRead: false
+            };
+            setMessages([...messages, newMessage]);
+    
+            const senderRef = doc(chatsDb, "chats", currentUser?.uid, "inbox", chatId);
             const messagesRef1 = collection(senderRef, "messages");
-
-            const recieverRef = doc(chatsDb, "seller-chats", chatId, "inbox", currentUser?.uid);
+    
+            const recieverRef = doc(chatsDb, "chats", chatId, "inbox", currentUser?.uid);
             const messagesRef2 = collection(recieverRef, "messages");
-
+    
             await setDoc(senderRef, {
                 name: reciever?.name,
                 photo: reciever?.photo,
             });
-            
-            await addDoc(messagesRef1, {
-                textMsg: message,
-                photo: currentUser?.photo,
-                createdAt: getCurrentDateTime(),
-                sender: currentUser?.uid
-            });
-
+    
+            await addDoc(messagesRef1, newMessage);
+    
             await setDoc(recieverRef, {
                 name: currentUser?.name,
                 photo: currentUser?.photo,
             });
-
-            await addDoc(messagesRef2, {
-                textMsg: message,
-                photo: currentUser?.photo,
-                createdAt: getCurrentDateTime(),
-                sender: currentUser?.uid
-            });
-
+    
+            await addDoc(messagesRef2, newMessage);
+    
             setMessage("");
         } catch (error) {
             console.error("Error sending message", error);
         }
     }
+    
 
     return (
         <main>
@@ -135,7 +142,7 @@ const Messenger = () => {
                     {reciever?.name}
                 </h2>
                 <div className='bg-[whitesmoke] rounded-md border border-[#D3D3D3] md:max-w-[750px] w-full mx-auto mt-10 md:p-10 p-4'>
-                    <article className='md:h-[300px] h-[60vh] overflow-y-scroll'>
+                    <article className='h-[60vh] overflow-y-scroll'>
                         <div className='flex flex-col items-center justify-center gap-2 mb-10'>
                             <p className='text-[gray]'>
                                 Send a message

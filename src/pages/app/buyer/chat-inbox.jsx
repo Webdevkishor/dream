@@ -14,22 +14,28 @@ const ChatInbox = () => {
 
     const fetchUsers = async () => {
         try {
-            const userRef = doc(chatsDb, "buyer-chats", currentUser?.uid);
+            const userRef = doc(chatsDb, "chats", currentUser?.uid);
             const inboxRef = collection(userRef, "inbox");
             const inboxSnap = await getDocs(inboxRef);
-
+    
             const users = [];
-            inboxSnap.forEach((doc) => {
+            for (const doc of inboxSnap.docs) {
+                const messagesRef = collection(inboxRef, doc.id, "messages");
+                const messagesSnap = await getDocs(messagesRef);
+                const hasUnreadMessages = messagesSnap.docs.some(message => !message.data().isRead && message.data().sender !== currentUser?.uid);
+                
                 users.push({
                     uid: doc.id,
-                    ...doc.data()
+                    ...doc.data(),
+                    hasUnreadMessages
                 });
-            });
+            }
             setSellers(users);
         } catch (error) {
             console.error("Error fetching users", error);
         }
     }
+    
 
     useEffect(() => {
         if(currentUser) {
@@ -41,7 +47,7 @@ const ChatInbox = () => {
         <main>
             <MobileNavbar />
             <Navbar />
-            <section className='font-font-primary mt-8 px-10'>
+            <section className='font-font-primary mt-8 md:px-10 px-4'>
                 <h2 className='mt-6 font-medium text-center text-xl'>
                     Chat Inbox
                 </h2>
@@ -50,16 +56,21 @@ const ChatInbox = () => {
                         sellers.map((seller) => (
                             <Link key={seller?.uid} to={`/buyer/chats/${seller?.uid}`} className='flex gap-3 items-center bg-[#D3D3D3] rounded-md px-7 py-3'>
                                 <img className='h-[50px] w-[50px] rounded-full' src={seller?.photo} alt="AV" />
-                                <h4 className='text-lg'>
-                                    {seller?.name}
-                                </h4>
+                                <div>
+                                    <h4 className='text-lg'>
+                                        {seller?.name}
+                                    </h4>
+                                    <h5 className='text-primary text-[13px] -mt-1'>
+                                        {seller?.hasUnreadMessages && <span className="text-red-500">New messages</span>}
+                                    </h5>
+                                </div>
                             </Link>
                         ))
                     }
                 </div>
             </section>
         </main>
-    )
+    )    
 }
 
 export default ChatInbox;
