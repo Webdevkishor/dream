@@ -5,14 +5,12 @@ import { useAuthStore } from '../../../store/auth-store';
 import { MdMessage } from "react-icons/md";
 import { useGigStore } from '../../../store/gig-store';
 import GigItem from '../../../components/buyer/gig-item';
-import { FaFilter } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
 import FilterGigs from '../../../components/buyer/filter-gigs';
 
 const Buyer = () => {
-
     const { currentUser } = useAuthStore();
-    const { fetchGigs, allGigs } = useGigStore();
+    const { fetchGigs, allGigs, filters } = useGigStore();
 
     const [searchTerm, setSearchTerm] = useState("");
 
@@ -20,14 +18,28 @@ const Buyer = () => {
         fetchGigs();
     }, []);
 
-    const filteredGigs = searchTerm 
-    ? allGigs.filter(gig => 
-        gig.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        gig.search_tags.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        gig.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        gig.sub_category.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    : allGigs;
+    const filterGigs = (gigs) => {
+        return gigs.filter(gig => {
+            const matchesSearchTerm = searchTerm 
+                ? gig.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                  gig.search_tags.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                  gig.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                  gig.sub_category.toLowerCase().includes(searchTerm.toLowerCase())
+                : true;
+
+            const matchesCategory = filters.categories.length > 0
+                ? filters.categories.includes(gig.category)
+                : true;
+
+            const matchesSubCategory = filters.sub_categories.length > 0
+                ? filters.sub_categories.includes(gig.sub_category)
+                : true;
+
+            return matchesSearchTerm && matchesCategory && matchesSubCategory;
+        });
+    };
+
+    const filteredGigs = filterGigs(allGigs);
 
     return (
         <main>
@@ -69,7 +81,7 @@ const Buyer = () => {
                 </aside>
             </section>
         </main>
-    )
+    );
 }
 
 export default Buyer;

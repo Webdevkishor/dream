@@ -7,6 +7,7 @@ import { useAuthStore } from '../../../store/auth-store';
 import { get, ref } from 'firebase/database';
 import { appRealDb } from '../../../utils/app-db';
 import GigItem from '../../../components/seller/gig-item';
+import { useGigStore } from '../../../store/gig-store';
 
 const Dashboard = () => {
 
