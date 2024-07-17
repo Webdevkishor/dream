@@ -4,6 +4,13 @@ import { appRealDb } from '../utils/app-db';
 
 export const useGigStore = create((set) => ({
   allGigs: [],
+  filters: {
+    expertise: null,
+    categories: null,
+    sub_categories: null
+  },
+
+  setFilters: (state) => set({ filters: state }),
 
   fetchGigs: async () => {
     try {

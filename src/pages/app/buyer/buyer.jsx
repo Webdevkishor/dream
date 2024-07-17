@@ -7,6 +7,7 @@ import { useGigStore } from '../../../store/gig-store';
 import GigItem from '../../../components/buyer/gig-item';
 import { FaFilter } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
+import FilterGigs from '../../../components/buyer/filter-gigs';
 
 const Buyer = () => {
 
@@ -57,10 +58,7 @@ const Buyer = () => {
                     <h3 className='text-lg'>
                         {filteredGigs.length} Gigs Available
                     </h3>
-                    <h4 className='flex items-center gap-2 text-lg'>
-                        <FaFilter className='text-xl' />
-                        Filter Gigs
-                    </h4>
+                    <FilterGigs />
                 </div>
                 <aside className='flex flex-col md:flex-row mt-7 gap-4 px-1 flex-wrap justify-center mb-14'>
                     {

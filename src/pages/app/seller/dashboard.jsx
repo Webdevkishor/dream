@@ -37,7 +37,7 @@ const Dashboard = () => {
           <FaCheckSquare className='text-5xl' />
           <div>
             <h4 className="text-[#03BD6C] font-[900] text-2xl">
-              20
+              {gigs?.length}
             </h4>
             <h5 className="text-[16px]">
               Total Gigs
@@ -48,7 +48,7 @@ const Dashboard = () => {
           <IoIosSave className='text-5xl' />
           <div>
             <h4 className="text-[#03BD6C] font-[900] text-2xl">
-              55
+              {gigs?.length}
             </h4>
             <h5 className="text-[16px]">
               Ongoing
@@ -59,7 +59,7 @@ const Dashboard = () => {
           <AiFillFlag className='text-5xl' />
           <div>
             <h4 className="text-[#03BD6C] font-[900] text-2xl">
-              20
+              0
             </h4>
             <h5 className="text-[16px]">
               Issues
@@ -70,7 +70,7 @@ const Dashboard = () => {
           <MdContacts className='text-5xl' />
           <div>
             <h4 className="text-[#03BD6C] font-[900] text-2xl">
-              20
+              {gigs?.length}
             </h4>
             <h5 className="text-[16px]">
               Pending
