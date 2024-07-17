@@ -34,6 +34,8 @@ const Authenticate = () => {
     useEffect(() => {
         if(currentUser) {
             authenticateUser();
+        } else {
+            navigate('/home');
         }
     }, [currentUser]);
 
