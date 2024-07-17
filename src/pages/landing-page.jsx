@@ -45,7 +45,7 @@ const LandingPage = () => {
   return (
     <Layout>
       <main className="font-font-primary text-[white] ">
-        <section className=" text-[#1E1E1E] md:h-screen lg:mx-10 sm:mx-5 flex flex-col items-center justify-center gap-y-5 md:mt-2 md:mb-2 mt-16 mb-6 rounded-xl bg-animated">
+        <section className=" text-[#1E1E1E] md:h-screen lg:mx-10 sm:mx-5 flex flex-col pt-10 items-center justify-center gap-y-5 md:mt-2 md:mb-2 mb-6 rounded-xl bg-animated">
           <div className="flex flex-row items-center justify-center border border-[black] py-1 px-2 gap-2 rounded-[12px] text-[12px] md:text-[16px] animate-fadeindown ">
             <span>✨</span>
             <span className="font-semibold">|</span>
@@ -83,7 +83,7 @@ const LandingPage = () => {
           </div>
         </section>
 
-        <section className='font-font-primary bg-secondary -mt-8 py-10 px-10'>
+        <section className='font-font-primary bg-secondary -md:mt-8 py-10 px-10'>
           <h3 className='font-bold text-4xl text-center mb-10'>
             Popular Services
           </h3>
