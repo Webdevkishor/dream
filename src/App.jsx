@@ -16,8 +16,8 @@ import PostGig from './pages/app/seller/post-gig';
 import Buyer from './pages/app/buyer/buyer';
 import GigDetail from './pages/app/buyer/gig-detail';
 import MyGigs from './pages/app/seller/my-gigs';
-import ChatInbox from './pages/app/buyer/chat-inbox';
-import Messenger from './pages/app/buyer/messenger';
+import ChatInbox from './pages/app/chat-inbox';
+import Messenger from './pages/app/messenger';
 
 const App = () => {
 
@@ -63,6 +63,8 @@ const MainApp = () => {
             <Route path='/seller/dashboard' element={<Dashboard />} />
             <Route path='/seller/post-gig' element={<PostGig />} />
             <Route path='/seller/my-gigs' element={<MyGigs />} />
+            <Route path='/seller/chats' element={<ChatInbox />} />
+            <Route path='/seller/chats/:chatId' element={<Messenger />} />
             <Route path='/buyer' element={<Buyer />} />
             <Route path='/buyer/:gigId' element={<GigDetail />} />
             <Route path='/buyer/chats' element={<ChatInbox />} />

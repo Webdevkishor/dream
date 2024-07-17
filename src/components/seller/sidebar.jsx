@@ -37,13 +37,13 @@ const Sidebar = ({ openSidebar, setOpenSidebar }) => {
                         My Gigs
                     </h5>
                 </Link>
-                <Link to={"/dashboard"} className={`${ openSidebar ? "md:text-2xl text-3xl" : "text-3xl" } rounded-lg bg-[#161617] p-2 flex gap-3 items-center hover:bg-[#03BD6C]`}>
+                {/* <Link to={"/dashboard"} className={`${ openSidebar ? "md:text-2xl text-3xl" : "text-3xl" } rounded-lg bg-[#161617] p-2 flex gap-3 items-center hover:bg-[#03BD6C]`}>
                     <BsFileBarGraphFill />
                     <h5 className={`text-lg ${ openSidebar ? "md:block hidden" : "hidden" } transition-all duration-300 ease-in-out whitespace-nowrap`}>
                         Activity
                     </h5>
-                </Link>
-                <Link to={"/dashboard"} className={`${ openSidebar ? "md:text-2xl text-3xl" : "text-3xl" } rounded-lg bg-[#161617] p-2 flex gap-3 items-center hover:bg-[#03BD6C]`}>
+                </Link> */}
+                <Link to={"/seller/chats"} className={`${ openSidebar ? "md:text-2xl text-3xl" : "text-3xl" } rounded-lg bg-[#161617] p-2 flex gap-3 items-center hover:bg-[#03BD6C]`}>
                     <MdMessage />
                     <h5 className={`text-lg ${ openSidebar ? "md:block hidden" : "hidden" } transition-all duration-300 ease-in-out whitespace-nowrap`}>
                         Messages

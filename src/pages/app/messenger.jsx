@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
-import MobileNavbar from '../../../components/buyer/mobile-navbar';
-import Navbar from '../../../components/buyer/navbar';
+import MobileNavbar from '../../components/buyer/mobile-navbar';
+import Navbar from '../../components/buyer/navbar';
 import { IoSend } from "react-icons/io5";
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { addDoc, collection, doc, getDoc, onSnapshot, query, orderBy, setDoc } from 'firebase/firestore';
-import { authDb } from '../../../utils/auth-db';
-import { useAuthStore } from '../../../store/auth-store';
-import { chatsDb } from '../../../utils/chats-db';
+import { authDb } from '../../utils/auth-db';
+import { useAuthStore } from '../../store/auth-store';
+import { chatsDb } from '../../utils/chats-db';
 import { serverTimestamp } from 'firebase/firestore';
 
 const Messenger = () => {
@@ -14,10 +14,13 @@ const Messenger = () => {
     const { currentUser } = useAuthStore();
     const { chatId } = useParams();
 
-    const [message, setMessage] = useState("Hey there! I am interested on working with you.");
     const [reciever, setReciever] = useState({});
     const [messages, setMessages] = useState([]);
+    const [message, setMessage] = useState(() => {if(messages.length !== 0) {return "Hey there! I am interested on working with you."} else {return ""}});
     const chatScrollRef = useRef(null);
+
+    const location = useLocation();
+    const sellerPage = location.pathname.startsWith('/seller');
 
     const fetchUser = async () => {
         try {
@@ -135,8 +138,8 @@ const Messenger = () => {
 
     return (
         <main>
-            <MobileNavbar />
-            <Navbar />
+            {!sellerPage && <MobileNavbar />}
+            {!sellerPage && <Navbar />}
             <section className='font-font-primary mt-8 md:px-10 px-4'>
                 <h2 className='mt-6 font-medium text-center text-xl'>
                     {reciever?.name}
