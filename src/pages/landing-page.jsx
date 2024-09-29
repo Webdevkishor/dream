@@ -87,7 +87,7 @@ const LandingPage = () => {
           <h3 className='font-bold text-4xl text-center mb-10'>
             Popular Services
           </h3>
-          <aside className='flex flex-col md:flex-row mt-7 gap-4 px-1 flex-wrap justify-center mb-14'>
+          <aside className='flex flex-col md:flex-row mt-7 gap-4 px-1 overflow-x-scroll'>
             {
               allGigs.slice(0,6).map((gig) => (
                 <GigItem key={gig.id} gigId={gig.id} title={gig.title} expertise={gig.expertise_level} price={gig.gig_cost} image={gig.images[0]} />
