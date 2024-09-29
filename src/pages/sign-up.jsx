@@ -87,13 +87,13 @@ const Signup = () => {
         createdAt: serverTimestamp()
       });
 
-      setCreateUser({ name: "", email: "", password: "" });
       navigate('/');
 
     } catch (error) {
       console.error("Error creating account", error);
       toast.error("Failed to create account");
     } finally {
+      setCreateUser({ name: "", email: "", password: "" });
       setLoading(false);
     }
   }

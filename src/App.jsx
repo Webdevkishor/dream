@@ -30,7 +30,7 @@ const App = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       getUser(user?.uid);
-      console.log(currentUser);
+      console.log("cuurentUser", currentUser);
     });
 
     return () => { unsubscribe() };

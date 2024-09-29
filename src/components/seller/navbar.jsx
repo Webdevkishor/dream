@@ -15,6 +15,9 @@ const Navbar = () => {
                 Welcome <span className='text-secondary hidden md:inline'>{currentUser?.name},</span>
             </h4>
             <aside className="flex gap-2 items-center">
+                <Link to={'/buyer'} className='text-primary hidden md:block active:text-[white] active:bg-primary px-6 py-2 rounded-md mr-2'>
+                    Switch to Buyer
+                </Link>
                 <Link to={'/seller/post-gig'} className='py-2 px-6 rounded-md bg-primary flex items-center transition-all duration-200 ease-out gap-2 font-medium text-[white] border border-primary active:bg-[transparent] active:text-primary'>
                     <FaPlusCircle className='text-xl' />
                     New Gig
