@@ -19,7 +19,7 @@ const Authenticate = () => {
             } else {
                 const checkSetupCompletion = await getDoc(doc(appDb, 'user-profiles', currentUser?.uid));
                 if(checkSetupCompletion.exists()) {
-                    navigate('/seller/dashboard');
+                    navigate('/select-dashboard');
                 } else {
                     navigate('/setup');
                 }

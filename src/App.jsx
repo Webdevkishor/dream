@@ -22,6 +22,7 @@ import Contact from './pages/contact';
 import PrivacyPolicy from './pages/privacy-policy';
 import RefundPolicy from './pages/refund-policy';
 import Terms from './pages/terms';
+import SelectDashboard from './pages/select-dashboard';
 
 const App = () => {
 
@@ -68,6 +69,7 @@ const MainApp = () => {
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<SignUp />} />
             <Route path='/setup' element={<Setup />} />
+            <Route path='/select-dashboard' element={<SelectDashboard />} />
             <Route path='/seller/dashboard' element={<Dashboard />} />
             <Route path='/seller/post-gig' element={<PostGig />} />
             <Route path='/seller/my-gigs' element={<MyGigs />} />
