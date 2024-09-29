@@ -1,10 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSetupStore } from '../../store/setup-store';
 import { IoWarningOutline } from "react-icons/io5";
+import { useAuthStore } from '../../store/auth-store';
 
 const Personal = () => {
+
+    const { currentUser } = useAuthStore();
     const { personalDetails, setPersonalDetails, compState } = useSetupStore();
     const [errors, setErrors] = useState({});
+
+    useEffect(() => {
+        if(currentUser) {
+            setPersonalDetails({...personalDetails, name: currentUser.name, email: currentUser.email });
+        }
+    }, [currentUser]);
 
     const calculateAge = (dob) => {
         const birthDate = new Date(dob);

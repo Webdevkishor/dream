@@ -59,7 +59,7 @@ const ChatInbox = () => {
                 <div className='bg-[whitesmoke] rounded-md border border-[#D3D3D3] md:max-w-[750px] w-full mx-auto mt-10 md:p-10 p-4'>
                     {
                         sellers.map((seller) => (
-                            <Link key={seller?.uid} to={sellerPage ? `/seller/chats/${seller?.uid}`: `/buyer/chats/${seller?.uid}`} className='flex gap-3 items-center bg-[#D3D3D3] rounded-md px-7 py-3'>
+                            <Link key={seller?.uid} to={sellerPage ? `/seller/chats/${seller?.uid}`: `/buyer/chats/${seller?.uid}`} className='flex gap-3 mt-2 items-center bg-[#D3D3D3] rounded-md px-7 py-3'>
                                 <img className='h-[50px] w-[50px] rounded-full' src={seller?.photo} alt="AV" />
                                 <div>
                                     <h4 className='text-lg'>

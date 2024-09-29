@@ -16,10 +16,12 @@ export const useAuthStore = create((set) => ({
         } 
         
         try {
-            const docSnap = await getDoc(doc(authDb, "users", uid));
-            if(docSnap.exists()) {
-                set({ currentUser: {...docSnap.data(), uid} });
-            }
+            setTimeout(async () => {
+                const docSnap = await getDoc(doc(authDb, "users", uid));
+                if(docSnap.exists()) {
+                    set({ currentUser: {...docSnap.data(), uid} });
+                }
+            }, 1500);
         } catch (error) {
             console.error("Error getting user", error);
             set({ currentUser: null });

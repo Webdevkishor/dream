@@ -9,7 +9,7 @@ import { FaFileImport } from "react-icons/fa";
 const Sidebar = ({ openSidebar, setOpenSidebar }) => {
     return (
         <nav className={`h-full bg-secondary text-[white] ${openSidebar ? "md:w-[300px] w-[70px]" : "w-[70px]"} px-3 z-20 flex flex-col font-font-primary transition-all duration-300 ease-in-out`}>
-            <Link to={"/dashboard"} onMouseEnter={() => setOpenSidebar(true)} onMouseLeave={() => setOpenSidebar(false)}>
+            <Link to={"/seller/dashboard"} onMouseEnter={() => setOpenSidebar(true)} onMouseLeave={() => setOpenSidebar(false)}>
                 {
                     openSidebar ? (
                         <>

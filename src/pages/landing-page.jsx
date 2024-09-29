@@ -6,10 +6,9 @@ import { ChatBubbleLeftRightIcon, UserGroupIcon } from "@heroicons/react/24/soli
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { USERS, SKILLS, SERVICE_DETAILS } from "../utils/constants";
+import { USERS, SKILLS } from "../utils/constants";
 import { Link } from "react-router-dom";
 import GradientBox from '../components/landing-page/gradient-box';
-import StickyScroll from '../components/landing-page/sticky-scroll';
 import TestimonialCard from '../components/landing-page/testimonial-card';
 import GigItem from '../components/buyer/gig-item';
 import { useGigStore } from '../store/gig-store';

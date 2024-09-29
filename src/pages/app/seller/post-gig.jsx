@@ -21,7 +21,7 @@ const PostGig = () => {
 
     const [gigData, setGigData] = useState({
         id: generateRandomId(),
-        title: "I will",
+        title: "I want",
         expertise_level: "",
         category: "",
         sub_category: "",
